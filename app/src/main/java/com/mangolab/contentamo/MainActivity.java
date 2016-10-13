@@ -21,7 +21,6 @@ import com.mangolab.contentamo.data.TaskContract;
 public class MainActivity extends AppCompatActivity implements
         LoaderManager.LoaderCallbacks<Cursor> {
 
-
     // Constants for logging and referring to a unique loader
     private static final String TAG = MainActivity.class.getSimpleName();
     private static final int TASK_LOADER_ID = 0;
@@ -29,7 +28,6 @@ public class MainActivity extends AppCompatActivity implements
     // Member variables for the adapter and RecyclerView
     private CustomCursorAdapter mAdapter;
     RecyclerView mRecyclerView;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,8 +59,6 @@ public class MainActivity extends AppCompatActivity implements
             // Called when a user swipes left or right on a ViewHolder
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
-                // TODO: 9.1. Implement swipe delete for a single item
-
                 // Retrieve the id of the task to delete
                 int id = (int) viewHolder.itemView.getTag();
 
@@ -112,6 +108,7 @@ public class MainActivity extends AppCompatActivity implements
     protected void onResume() {
         super.onResume();
 
+        System.out.println("RESUMING DATA " + TASK_LOADER_ID);
         // re-queries for all tasks
         getSupportLoaderManager().restartLoader(TASK_LOADER_ID, null, this);
     }
@@ -136,6 +133,7 @@ public class MainActivity extends AppCompatActivity implements
             protected void onStartLoading() {
                 if (mTaskData != null) {
                     // Delivers any previously loaded data immediately
+                    System.out.println("DELIVER RESULT TASK DATA " + mTaskData);
                     deliverResult(mTaskData);
                 } else {
                     // Force a new load
@@ -150,6 +148,8 @@ public class MainActivity extends AppCompatActivity implements
                 //Hint: use a try/catch block to catch any errors in loading data
 
                 try {
+
+                    System.out.println("COLUMN PRIORITY " + TaskContract.TaskEntry.COLUMN_PRIORITY);
                     return getContentResolver().query(TaskContract.TaskEntry.CONTENT_URI,
                             null,
                             null,
@@ -166,6 +166,7 @@ public class MainActivity extends AppCompatActivity implements
             // deliverResult sends the result of the load, a Cursor, to the registered listener
             public void deliverResult(Cursor data) {
                 mTaskData = data;
+                System.out.println("DELIVER RESULT " + data);
                 super.deliverResult(data);
             }
         };
@@ -182,6 +183,8 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         // Update the data that the adapter uses to create ViewHolders
+
+        System.out.println("DELIVER SWAP DATA " + data);
         mAdapter.swapCursor(data);
     }
 
