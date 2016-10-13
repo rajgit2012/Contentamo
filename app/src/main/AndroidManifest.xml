@@ -3,18 +3,34 @@
     package="com.mangolab.contentamo">
 
     <application
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+
+        <!-- The manifest entry for the MainActivity -->
+        <activity android:name="com.mangolab.contentamo.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- AddTaskActivity -->
+        <activity
+            android:name=".AddTaskActivity"
+            android:label="@string/add_task_activity_name" />
+
+        <!-- TODO: 2.1. Register the TaskContentProvider -->
+        <!-- TODO: 2.2. Set name, authorities, and exported attributes -->
+        <!-- exported = false limits access to this ContentProvider to only this app -->
+        <provider
+            android:name="com.mangolab.contentamo.data.TaskContentProvider"
+            android:authorities="com.mangolab.contentamo.todolist"
+            android:exported="false"/>
+
     </application>
 
 </manifest>
